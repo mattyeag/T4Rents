@@ -21,6 +21,7 @@ async function getConfig(){
   }catch{
     alert("error loading config");
     console.error("error loading config");
+    window.config = { };
   }
 }
 

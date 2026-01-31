@@ -46,7 +46,14 @@ async function getReviewsData(){
 //wait for property data to populate from main.js
 function waitForCookie(interval = 700) {
   return new Promise(resolve => {
-    const check = setInterval(() => {
+    let x = 0;
+    const check = setInterval((x) => {
+      x++;
+      if (x > 20) {
+        clearInterval(check);
+        console.warn("Timeout waiting for CONFIG_DATA in sessionStorage");
+        resolve();
+      }
       console.log("checking for customer review data...")
       if (sessionStorage.getItem("CONFIG_DATA")) {
         clearInterval(check);
