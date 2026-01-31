@@ -15,6 +15,7 @@ async function getConfig(){
   try {
   const res = await fetch(versionedUrl("assets/config.json"));
   const freshConfig = await res.json();
+  console.log("config loaded", freshConfig);
   window.config = freshConfig;
   sessionStorage.setItem("CONFIG_DATA", JSON.stringify(freshConfig));
   }catch{
