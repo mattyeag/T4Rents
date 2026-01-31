@@ -23,10 +23,15 @@ jobs:
           CUSTOMERREVIEWSURL: ${{ secrets.CUSTOMERREVIEWSURL }}
           BUSINESSESSHEETURL: ${{ secrets.BUSINESSESSHEETURL }}
         run: |
-          perl -i -pe "s|\{WEB3API_K\}|\Q$WEB3API_K\E|g" assets/config.json
-          perl -i -pe "s|\{PROPERTIESSHEETURL\}|\Q$PROPERTIESSHEETURL\E|g" assets/config.json
-          perl -i -pe "s|\{CUSTOMERREVIEWSURL\}|\Q$CUSTOMERREVIEWSURL\E|g" assets/config.json
-          perl -i -pe "s|\{BUSINESSESSHEETURL\}|\Q$BUSINESSESSHEETURL\E|g" assets/config.json
+          safe_web3api_k=$(printf '%s' "$WEB3API_K" | perl -pe 's/([\\&])/\\$1/g')
+          safe_properties_sheet_url=$(printf '%s' "$PROPERTIESSHEETURL" | perl -pe 's/([\\&])/\\$1/g')
+          safe_customer_reviews_url=$(printf '%s' "$CUSTOMERREVIEWSURL" | perl -pe 's/([\\&])/\\$1/g')
+          safe_businesses_sheet_url=$(printf '%s' "$BUSINESSESSHEETURL" | perl -pe 's/([\\&])/\\$1/g')
+
+          perl -i -pe "s|\{WEB3API_K\}|$safe_web3api_k|g" assets/config.json
+          perl -i -pe "s|\{PROPERTIESSHEETURL\}|$safe_properties_sheet_url|g" assets/config.json
+          perl -i -pe "s|\{CUSTOMERREVIEWSURL\}|$safe_customer_reviews_url|g" assets/config.json
+          perl -i -pe "s|\{BUSINESSESSHEETURL\}|$safe_businesses_sheet_url|g" assets/config.json
 
       - name: Debug show replaced config
         run: cat assets/config.json
