@@ -1,0 +1,32 @@
+name: Deploy Pages
+
+on:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Inject config secrets
+        run: |
+          sed -i "s|{WEB3API_K}|${{ secrets.WEB3API_K }}|g" assets/config.js
+          sed -i "s|{PROPERTIESSHEETURL}|${{ secrets.PROPERTIESSHEETURL }}|g" assets/config.js
+          sed -i "s|{CUSTOMERREVIEWSURL}|${{ secrets.CUSTOMERREVIEWSURL }}|g" assets/config.js
+          sed -i "s|{BUSINESSESSHEETURL}|${{ secrets.BUSINESSESSHEETURL }}|g" assets/config.js
+
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: .
+
+      - name: Deploy to GitHub Pages
+        uses: actions/deploy-pages@v4

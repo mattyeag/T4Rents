@@ -1,9 +1,9 @@
 {
   "version": 1,
-  "web3FormsKey": "",
-  "propertiesSheetUrl": "",
-  "customerReviewsUrl": "",
-  "businessesSheetUrl": "",
+  "web3FormsKey": "{WEB3API_K}",
+  "propertiesSheetUrl": "{PROPERTIESSHEETURL}",
+  "customerReviewsUrl": "{CUSTOMERREVIEWSURL}",
+  "businessesSheetUrl": "{BUSINESSESSHEETURL}",
   "image_bucket": "tee4rentz",
   "home":{
      "tagline": "Providing High-Quality Residential & Commercial Rentals in Franklin, PA for 30 Years!"
