@@ -18,10 +18,10 @@ jobs:
 
       - name: Inject config secrets
         run: |
-          sed -i "s|{WEB3API_K}|${{ secrets.WEB3API_K }}|g" assets/config.js
-          sed -i "s|{PROPERTIESSHEETURL}|${{ secrets.PROPERTIESSHEETURL }}|g" assets/config.js
-          sed -i "s|{CUSTOMERREVIEWSURL}|${{ secrets.CUSTOMERREVIEWSURL }}|g" assets/config.js
-          sed -i "s|{BUSINESSESSHEETURL}|${{ secrets.BUSINESSESSHEETURL }}|g" assets/config.js
+          sed -i "s|{WEB3API_K}|${{ secrets.WEB3API_K }}|g" assets/config.json
+          sed -i "s|{PROPERTIESSHEETURL}|${{ secrets.PROPERTIESSHEETURL }}|g" assets/config.json
+          sed -i "s|{CUSTOMERREVIEWSURL}|${{ secrets.CUSTOMERREVIEWSURL }}|g" assets/config.json
+          sed -i "s|{BUSINESSESSHEETURL}|${{ secrets.BUSINESSESSHEETURL }}|g" assets/config.json
 
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3
