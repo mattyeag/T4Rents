@@ -44,7 +44,7 @@ function renderBusinesses(businesses) {
       
       if (page === 'home') {
         try {
-          const target = `../pages/community.html?biz=${encodeURIComponent(id)}`;
+          const target = `pages/community.html?biz=${encodeURIComponent(id)}`;
           window.location.href = target;
           return;
         } catch (e) {
