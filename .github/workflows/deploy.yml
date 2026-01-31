@@ -17,11 +17,19 @@ jobs:
       - uses: actions/checkout@v4
 
       - name: Inject config secrets
+        env:
+          WEB3API_K: ${{ secrets.WEB3API_K }}
+          PROPERTIESSHEETURL: ${{ secrets.PROPERTIESSHEETURL }}
+          CUSTOMERREVIEWSURL: ${{ secrets.CUSTOMERREVIEWSURL }}
+          BUSINESSESSHEETURL: ${{ secrets.BUSINESSESSHEETURL }}
         run: |
-          sed -i "s|{WEB3API_K}|${{ secrets.WEB3API_K }}|g" assets/config.json
-          sed -i "s|{PROPERTIESSHEETURL}|${{ secrets.PROPERTIESSHEETURL }}|g" assets/config.json
-          sed -i "s|{CUSTOMERREVIEWSURL}|${{ secrets.CUSTOMERREVIEWSURL }}|g" assets/config.json
-          sed -i "s|{BUSINESSESSHEETURL}|${{ secrets.BUSINESSESSHEETURL }}|g" assets/config.json
+          sed -i "s|{WEB3API_K}|$WEB3API_K|g" assets/config.json
+          sed -i "s|{PROPERTIESSHEETURL}|$PROPERTIESSHEETURL|g" assets/config.json
+          sed -i "s|{CUSTOMERREVIEWSURL}|$CUSTOMERREVIEWSURL|g" assets/config.json
+          sed -i "s|{BUSINESSESSHEETURL}|$BUSINESSESSHEETURL|g" assets/config.json
+
+      - name: Debug show replaced config
+        run: cat assets/config.json
 
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3
