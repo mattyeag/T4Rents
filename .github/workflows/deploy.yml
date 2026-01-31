@@ -23,10 +23,10 @@ jobs:
           CUSTOMERREVIEWSURL: ${{ secrets.CUSTOMERREVIEWSURL }}
           BUSINESSESSHEETURL: ${{ secrets.BUSINESSESSHEETURL }}
         run: |
-          sed -i "s|{WEB3API_K}|$WEB3API_K|g" assets/config.json
-          sed -i "s|{PROPERTIESSHEETURL}|$PROPERTIESSHEETURL|g" assets/config.json
-          sed -i "s|{CUSTOMERREVIEWSURL}|$CUSTOMERREVIEWSURL|g" assets/config.json
-          sed -i "s|{BUSINESSESSHEETURL}|$BUSINESSESSHEETURL|g" assets/config.json
+          perl -i -pe "s|\{WEB3API_K\}|\Q$WEB3API_K\E|g" assets/config.json
+          perl -i -pe "s|\{PROPERTIESSHEETURL\}|\Q$PROPERTIESSHEETURL\E|g" assets/config.json
+          perl -i -pe "s|\{CUSTOMERREVIEWSURL\}|\Q$CUSTOMERREVIEWSURL\E|g" assets/config.json
+          perl -i -pe "s|\{BUSINESSESSHEETURL\}|\Q$BUSINESSESSHEETURL\E|g" assets/config.json
 
       - name: Debug show replaced config
         run: cat assets/config.json
