@@ -72,7 +72,7 @@ function createPropertyCard(property) {
         <h3 class="property-title">${title}</h3>
         <p class="property-price">${price}</p>
         <p class="property-details">${details}</p>
-        <a href="#" class="property-link">View Details</a>
+        <a class="property-link">View Details</a>
       </div>
     </div>
   `;
@@ -110,6 +110,7 @@ function initElements(){
    priceEl = document.getElementById("property-price");
    locationEl = document.getElementById("property-location");
    descEl = document.getElementById("property-description");
+   detailsEl = document.getElementById("property-details-modal");
 }
 
 
@@ -119,6 +120,7 @@ function openPropertyModal(property) {
   priceEl && (priceEl.textContent = property.PRICE || '');
   locationEl && (locationEl.textContent = property.LOCATION || '');
   descEl && (descEl.textContent = property.DESCRIPTION || '');
+  detailsEl && (detailsEl.textContent = property.DETAILS || '');
 
   const images = Array.isArray(property.IMAGENAMES) ? property.IMAGENAMES : [];
   currentIndex = 0;

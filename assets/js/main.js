@@ -157,7 +157,32 @@ async function refreshData() {
 window.isSessionExpired = sessionExpired
 
 // Run on page load
+
+function setPageHeaderTitle(){
+  const headerTitleEl = document.getElementById("page-header-title");
+  if(!headerTitleEl) return;
+  const path = window.location.pathname;
+  if(!path.includes("index.html")){
+  let title = "";
+    if(path.includes("resedential")){
+      title = "Residential";
+    } else if (path.includes("commercial")){
+      title = "Commercial";
+    } else if (path.includes("about")){
+      title = "About";
+    } else if (path.includes("contact")){
+      title = "Contact";
+    } else if (path.includes("community")){
+      title = "Community";
+    }
+    headerTitleEl.textContent = title;
+  }
+}
+
 async function initPages() {
+    loadPages().then(()=>{
+      setPageHeaderTitle();
+    });
     const propData = sessionStorage.getItem("PROPERTY_DATA");
     const configData = sessionStorage.getItem("CONFIG_DATA");
     const hasData = propData && configData;
@@ -172,7 +197,7 @@ async function initPages() {
     }
 
     await setupSession(needsRefresh);    
-    await loadPages();
+    // await loadPages();
 }
 
 

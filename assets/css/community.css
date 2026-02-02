@@ -83,6 +83,7 @@
 
 .business-detail img.business-detail-image {
   /* width: 100%; */
+  max-width: 90%;
   max-height: 400px;
   object-fit: contain;
   border-radius: 10px;

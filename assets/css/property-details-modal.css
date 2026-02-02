@@ -66,3 +66,21 @@
   font-size: 0.9rem;
   color: #444;
 }
+
+
+#property-price{
+  color: rgb(89, 130, 202);
+  font-weight: bold;
+  font-size: 1.2rem;
+}
+
+#property-location{
+  color: rgb(39, 39, 39);
+  font-size: 1.1rem;
+}
+
+#property-description{
+  line-height: 1.5;
+  font-size: 13pt;
+  color: #333;
+}
