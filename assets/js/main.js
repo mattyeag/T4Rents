@@ -197,7 +197,7 @@ async function initPages() {
     await setupSession(needsRefresh);    
     setTimeout(() => {
       setPageHeaderTitle();
-    }, 500);
+    }, 300);
 }
 
 
