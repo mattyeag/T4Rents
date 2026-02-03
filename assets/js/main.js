@@ -180,9 +180,7 @@ function setPageHeaderTitle(){
 }
 
 async function initPages() {
-    loadPages().then(()=>{
-      setPageHeaderTitle();
-    });
+    loadPages()
     const propData = sessionStorage.getItem("PROPERTY_DATA");
     const configData = sessionStorage.getItem("CONFIG_DATA");
     const hasData = propData && configData;
@@ -197,7 +195,9 @@ async function initPages() {
     }
 
     await setupSession(needsRefresh);    
-    // await loadPages();
+    setTimeout(() => {
+      setPageHeaderTitle();
+    }, 500);
 }
 
 

@@ -4,8 +4,23 @@ This repo is a small static site that dynamically loads data from published Goog
 
 This README explains where data comes from, how it's loaded and cached, and how pages consume that data so a new dev can make changes quickly.
 
+### Deployment
+
+This site is deployed to GitHub Pages using GitHub Actions. The deployment workflow:
+
+1. **Base URL substitution**: The `__BASE_URL__` placeholder in `index.html` and all files in `/pages/` is replaced with the appropriate base URL (`/` for production, `/T4Rents/` for repository deployments, etc.) during the build process.
+
+2. **Configuration secrets**: Environment variables stored in GitHub repository secrets are used to replace template variables in `assets/config.json`:
+   - `WEB3API_K` → `{WEB3API_K}`
+   - `PROPERTIESSHEETURL` → `{PROPERTIESSHEETURL}`
+   - `CUSTOMERREVIEWSURL` → `{CUSTOMERREVIEWSURL}`
+   - `BUSINESSESSHEETURL` → `{BUSINESSESSHEETURL}`
+
+3. **Build and deploy**: The GitHub Actions workflow runs on push to `main`, substitutes all placeholders, and deploys the static site to GitHub Pages.
+
 ### Quick overview
 
+- **Base URL**: The `<base href="__BASE_URL__" />` tag in `index.html` and page files is dynamically set during deployment to ensure relative URLs work correctly on GitHub Pages. This is automatically updated by the GitHub Actions workflow.
 - Entry: `index.html` is the home page. It includes `/assets/js/main.js` which is responsible for loading configuration and property data, and for injecting the header and footer partials.
 - Data sources: Google Sheets published as CSV and configured in `assets/config.json`.
 - Images: Stored in a Google Cloud Storage bucket. The bucket name is in `assets/config.json`.
@@ -13,13 +28,12 @@ This README explains where data comes from, how it's loaded and cached, and how 
 
 ### Important files
 
-- `assets/config.json` — primary config. Keys used by the app:
-
-  - `propertiesSheetUrl` — CSV URL for properties
-  - `customerReviewsUrl` — CSV URL for customer reviews
-  - `businessesSheetUrl` — CSV URL for businesses
+- `assets/config.json` — primary config template. Template variables (e.g. `{WEB3API_K}`) are replaced by GitHub Actions during deployment using repository secrets. Keys used by the app:
+  - `propertiesSheetUrl` — CSV URL for properties (replaced from `PROPERTIESSHEETURL` secret)
+  - `customerReviewsUrl` — CSV URL for customer reviews (replaced from `CUSTOMERREVIEWSURL` secret)
+  - `businessesSheetUrl` — CSV URL for businesses (replaced from `BUSINESSESSHEETURL` secret)
   - `image_bucket` — GCS bucket name used to build image URLs
-  - `web3FormsKey` — third-party key used for contact forms
+  - `web3FormsKey` — third-party key used for contact forms (replaced from `WEB3API_K` secret)
 
 - `assets/js/main.js` — loads `assets/config.json`, fetches and parses the properties CSV, converts image filename lists to full GCS URLs, and stores data in `sessionStorage` and `window` globals.
 
@@ -95,8 +109,23 @@ Each entity is represented by a simple HTML card constructed in JS and injected 
 - CSV parse errors: check that the published CSV has the expected header row and no stray characters; PapaParse is used for parsing.
 - Images not loading: confirm the GCS bucket name in `assets/config.json` and that `IMAGEFOLDER` + `IMAGENAMES` match the bucket structure.
 
+### Local development
+
+To run this site locally:
+
+1. Edit `assets/config.json` and replace template variables with actual values:
+   - Replace `{WEB3API_K}` with your Web3 Forms API key
+   - Replace `{PROPERTIESSHEETURL}`, `{CUSTOMERREVIEWSURL}`, `{BUSINESSESSHEETURL}` with your published CSV URLs
+
+2. Optionally update the `<base href="__BASE_URL__" />` in `index.html` and page files:
+   - For local development, you can use `href="/"` (local root)
+   - For GitHub Pages deployments, the Actions workflow will automatically set this to the correct repository path
+
+3. Serve the files locally (e.g., `python -m http.server 8000` or use VS Code's Live Server extension)
+
+**Note**: GitHub Actions automatically handles both the base URL substitution and config variable replacement on every push to `main`, so you should not commit actual secret values to the repository.
+
 ### Where to look to extend functionality
 
 - To change card templates, edit the JS modules in `assets/js/` (they return HTML strings for injection).
 - To change data refresh rules, edit `sessionExpired()` and related logic in `assets/js/main.js`.
-
