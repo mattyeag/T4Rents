@@ -36,6 +36,13 @@ jobs:
       - name: Debug show replaced config
         run: cat assets/config.json
 
+      - name: Replace base URL placeholder in pages
+        env:
+          BASE_URL: /T4Rents/ # or set this via GitHub secrets or workflow variables
+        run: |
+          safe_base_url=$(printf '%s' "$BASE_URL" | perl -pe 's/([\\&])/\\$1/g')
+          find pages/ -type f -name '*.html' -exec perl -i -pe "s|__BASE_URL__|$safe_base_url|g" {} +
+
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3
         with:
