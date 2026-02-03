@@ -183,12 +183,12 @@ body {
   padding: 0.5rem 1rem;
 }
 
-.hero-image {
+#t4rent-town {
   opacity: 0;
   transition: opacity 1.5s ease-in-out;
 }
 
-.hero-image.visible {
+#t4rent-town.visible {
   opacity: 1;
 }
 
