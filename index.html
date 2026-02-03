@@ -20,7 +20,7 @@
     <a class="style-test" href="/pages/home2.html">style 2</a>
     <a class="style-test" href="/pages/home3.html">style 3</a> -->
     <section class="hero">
-      <img src="assets/img/town.svg" alt="Decorative background" class="hero-img" />
+      <img src="assets/img/town.svg" alt="Decorative background" class="hero-img" id="t4rent-town"/>
       <div class="hero-text">
           <!-- <h1>Welcome to T4 Rentals</h1> -->
           <p id="home-tagline">Providing High-Quality Residential & Commercial Rentals in Franklin, PA for
@@ -93,7 +93,7 @@
   <script src="assets/js/featured-properties.js?v=1.0.5"></script>
   <script src="assets/js/community.js?v=1.0.5"></script>
   <script>
-    const img = document.querySelector('.hero-image');
+    const img = document.getElementById('t4rent-town');
     if (img) {
       img.classList.add('visible');
     }
