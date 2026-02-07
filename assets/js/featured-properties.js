@@ -8,10 +8,18 @@ function createPropertyCard(property) {
   const status = property.STATUS || '';
   let badgeText = '';
   let badgeClass = '';
-  const isResidentialString = property.RESIDENTIAL == "TRUE"? "Residential" : "";
-  const isCommercialString = property.COMMERCIAL == "TRUE"? "Commercial" : "";
-  const propertyAltTitle = isResidentialString && isCommercialString ? `${isResidentialString} & ${isCommercialString}` : (isResidentialString || isCommercialString);
-  const TITLE = property.TITLE || propertyAltTitle || "Property";
+  const isResidential = String(property.RESIDENTIAL || '').toLowerCase() === 'true';
+  const isCommercial = String(property.COMMERCIAL || '').toLowerCase() === 'true';
+  const propertyAltTitle = isResidential && isCommercial
+    ? 'Residential & Commercial'
+    : isResidential
+      ? 'Residential'
+      : isCommercial
+        ? 'Commercial'
+        : '';
+  // prefer a non-empty trimmed TITLE, fall back to generated alt title, then "Property"
+  const rawTitle = property.TITLE || '';
+  const TITLE = rawTitle.trim() || propertyAltTitle || 'Property';
   switch (status) {
     case 'open':
       badgeText = 'Available';
@@ -31,7 +39,7 @@ function createPropertyCard(property) {
   }
   // determine target page based on commercial/residential flags
   const id = property.ID != null ? property.ID : '';
-  const isResidential = String(property.RESIDENTIAL || '').toLowerCase() === 'true';
+  // const isResidential = String(property.RESIDENTIAL || '').toLowerCase() === 'true';
   const targetPage = isResidential ? 'pages/resedential.html' : 'pages/commercial.html';
 
   const href = `${targetPage}?id=${encodeURIComponent(id)}`;
