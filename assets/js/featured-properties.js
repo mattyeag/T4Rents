@@ -8,18 +8,7 @@ function createPropertyCard(property) {
   const status = property.STATUS || '';
   let badgeText = '';
   let badgeClass = '';
-  const isResidential = String(property.RESIDENTIAL || '').toLowerCase() === 'true';
-  const isCommercial = String(property.COMMERCIAL || '').toLowerCase() === 'true';
-  const propertyAltTitle = isResidential && isCommercial
-    ? 'Residential & Commercial'
-    : isResidential
-      ? 'Residential'
-      : isCommercial
-        ? 'Commercial'
-        : '';
-  // prefer a non-empty trimmed TITLE, fall back to generated alt title, then "Property"
-  const rawTitle = property.TITLE || '';
-  const TITLE = rawTitle.trim() || propertyAltTitle || 'Property';
+  const TITLE = getPropertyTitle(property);
   switch (status) {
     case 'open':
       badgeText = 'Available';
@@ -55,6 +44,22 @@ function createPropertyCard(property) {
       </a>
       </div>
   `;
+}
+
+function getPropertyTitle(property) {
+  const isResidential = String(property.RESIDENTIAL || '').toLowerCase() === 'true';
+  const isCommercial = String(property.COMMERCIAL || '').toLowerCase() === 'true';
+  const propertyAltTitle = isResidential && isCommercial
+    ? 'Residential & Commercial'
+    : isResidential
+      ? 'Residential'
+      : isCommercial
+        ? 'Commercial'
+        : '';
+  // prefer a non-empty trimmed TITLE, fall back to generated alt title, then "Property"
+  const rawTitle = property.TITLE || '';
+  const TITLE = rawTitle.trim() || propertyAltTitle || 'Property';
+  return TITLE;
 }
 
 

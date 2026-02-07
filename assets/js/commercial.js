@@ -36,11 +36,13 @@ async function getPropertyData(filter){
 /// </summary>
 function createPropertyCard(property) {
   const imgSrc = (Array.isArray(property.IMAGENAMES) && property.IMAGENAMES[0]) ? property.IMAGENAMES[0] : '/assets/img/placeholder.png';
-  const title = property.TITLE || '';
+  const title = getPropertyTitle(property);
   const price = property.PRICE || '';
   const details = property.DETAILS || '';
   const id = property.ID != null ? property.ID : '';
   const status = property.STATUS || '';
+
+  
 
   // Determine badge text and color class
   let badgeText = '';
@@ -91,6 +93,21 @@ async function renderProperties(filter) {
 }
 
 
+function getPropertyTitle(property) {
+  const isResidential = String(property.RESIDENTIAL || '').toLowerCase() === 'true';
+  const isCommercial = String(property.COMMERCIAL || '').toLowerCase() === 'true';
+  const propertyAltTitle = isResidential && isCommercial
+    ? 'Residential & Commercial'
+    : isResidential
+      ? 'Residential'
+      : isCommercial
+        ? 'Commercial'
+        : '';
+  // prefer a non-empty trimmed TITLE, fall back to generated alt title, then "Property"
+  const rawTitle = property.TITLE || '';
+  const TITLE = rawTitle.trim() || propertyAltTitle || 'Property';
+  return TITLE;
+}
 
 
 
