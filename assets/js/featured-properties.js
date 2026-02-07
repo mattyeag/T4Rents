@@ -28,7 +28,7 @@ function createPropertyCard(property) {
   }
   // determine target page based on commercial/residential flags
   const id = property.ID != null ? property.ID : '';
-  // const isResidential = String(property.RESIDENTIAL || '').toLowerCase() === 'true';
+  const isResidential = String(property.RESIDENTIAL || '').toLowerCase() === 'true';
   const targetPage = isResidential ? 'pages/resedential.html' : 'pages/commercial.html';
 
   const href = `${targetPage}?id=${encodeURIComponent(id)}`;
