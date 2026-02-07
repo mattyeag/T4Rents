@@ -8,8 +8,8 @@ function createPropertyCard(property) {
   const status = property.STATUS || '';
   let badgeText = '';
   let badgeClass = '';
-  const isResidentialString = property.RESIDENTIAL? "Residential" : "";
-  const isCommercialString = property.COMMERCIAL? "Commercial" : "";
+  const isResidentialString = property.RESIDENTIAL == "TRUE"? "Residential" : "";
+  const isCommercialString = property.COMMERCIAL == "TRUE"? "Commercial" : "";
   const propertyAltTitle = isResidentialString && isCommercialString ? `${isResidentialString} & ${isCommercialString}` : (isResidentialString || isCommercialString);
   const TITLE = property.TITLE || propertyAltTitle || "Property";
   switch (status) {
