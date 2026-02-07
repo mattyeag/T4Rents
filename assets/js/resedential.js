@@ -45,7 +45,7 @@ async function filterProperties(filter){
 /// </summary>
 function createPropertyCard(property) {
   const imgSrc = (Array.isArray(property.IMAGENAMES) && property.IMAGENAMES[0]) ? property.IMAGENAMES[0] : '/assets/img/placeholder.png';
-  const title = property.TITLE || '';
+  // const title = property.TITLE || '';
   const price = property.PRICE || '';
   const details = property.DETAILS || '';
   const id = property.ID != null ? property.ID : '';
@@ -54,6 +54,19 @@ function createPropertyCard(property) {
   // Determine badge text and color class
   let badgeText = '';
   let badgeClass = '';
+
+  const isResidential = String(property.RESIDENTIAL || '').toLowerCase() === 'true';
+  const isCommercial = String(property.COMMERCIAL || '').toLowerCase() === 'true';
+  const propertyAltTitle = isResidential && isCommercial
+    ? 'Residential & Commercial'
+    : isResidential
+      ? 'Residential'
+      : isCommercial
+        ? 'Commercial'
+        : '';
+  // prefer a non-empty trimmed TITLE, fall back to generated alt title, then "Property"
+  const rawTitle = property.TITLE || '';
+  const TITLE = rawTitle.trim() || propertyAltTitle || 'Property';
 
   switch (status) {
     case 'open':
@@ -75,10 +88,10 @@ function createPropertyCard(property) {
 
   return `
     <div class="property-card" data-status="${status}" data-id="${id}">
-      <img src="${imgSrc}" alt="${title}" class="property-image" />
+      <img src="${imgSrc}" alt="${TITLE}" class="property-image" />
       <div class="card-body">
         ${badgeText ? `<span class="status-badge ${badgeClass}">${badgeText}</span>` : ''}
-        <h3 class="property-title">${title}</h3>
+        <h3 class="property-title">${TITLE}</h3>
         <p class="property-price">${price}</p>
         <p class="property-details">${details}</p>
         <a class="property-link">View Details</a>
