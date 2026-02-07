@@ -8,7 +8,10 @@ function createPropertyCard(property) {
   const status = property.STATUS || '';
   let badgeText = '';
   let badgeClass = '';
-
+  const isResidentialString = property.RESIDENTIAL? "Residential" : "";
+  const isCommercialString = property.COMMERCIAL? "Commercial" : "";
+  const propertyAltTitle = isResidentialString && isCommercialString ? `${isResidentialString} & ${isCommercialString}` : (isResidentialString || isCommercialString);
+  const TITLE = property.TITLE || propertyAltTitle || "Property";
   switch (status) {
     case 'open':
       badgeText = 'Available';
@@ -36,10 +39,10 @@ function createPropertyCard(property) {
   return `
       <div class="property-card featured-card" data-status="${property.STATUS}">
       <a class="property-card-link" href="${href}" style="text-decoration:none;">
-        <img src="${property.IMAGENAMES[0]}" alt="${property.TITLE}" class="property-image" />
+        <img src="${property.IMAGENAMES[0]}" alt="${TITLE}" class="property-image" />
         <div class="card-body">
           ${badgeText ? `<span class="status-badge ${badgeClass}">${badgeText}</span>` : ''}
-          <h3 class="property-title">${property.TITLE}</h3>
+          <h3 class="property-title">${TITLE}</h3>
         </div>
       </a>
       </div>
